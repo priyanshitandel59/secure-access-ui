@@ -1,9 +1,18 @@
- import React, { useState } from 'react';
+ import React, { useState, useEffect } from 'react';
  import { useNavigate } from 'react-router-dom';
- import { useAuth } from '../../contexts/AuthContext';
- import { useTheme } from '../../contexts/ThemeContext';
- import { useLanguage } from '../../contexts/LanguageContext';
  import './Login.scss';
+ 
+ type Language = 'en' | 'es' | 'fr';
+ type Theme = 'light' | 'dark';
+ 
+ const translations = {
+   login: { en: 'Login', es: 'Iniciar Sesión', fr: 'Connexion' },
+   email: { en: 'Email', es: 'Correo Electrónico', fr: 'Email' },
+   password: { en: 'Password', es: 'Contraseña', fr: 'Mot de passe' },
+   loginButton: { en: 'Sign In', es: 'Entrar', fr: 'Se Connecter' },
+   loginError: { en: 'Invalid email or password', es: 'Correo o contraseña inválidos', fr: 'Email ou mot de passe invalide' },
+   welcomeBack: { en: 'Welcome Back', es: 'Bienvenido de Nuevo', fr: 'Bon Retour' },
+ };
  
  const SunIcon = () => (
    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -26,24 +35,36 @@
  
  const Login: React.FC = () => {
    const navigate = useNavigate();
-   const { login } = useAuth();
-   const { theme, toggleTheme } = useTheme();
-   const { language, setLanguage, t } = useLanguage();
    
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
    const [isLoading, setIsLoading] = useState(false);
    const [showLangDropdown, setShowLangDropdown] = useState(false);
+   const [language, setLanguage] = useState<Language>('en');
+   const [theme, setTheme] = useState<Theme>('light');
+ 
+   const t = (key: string): string => {
+     return translations[key as keyof typeof translations]?.[language] || key;
+   };
+ 
+   const toggleTheme = () => {
+     const newTheme = theme === 'light' ? 'dark' : 'light';
+     setTheme(newTheme);
+     document.documentElement.setAttribute('data-theme', newTheme);
+   };
+ 
+   useEffect(() => {
+     document.documentElement.setAttribute('data-theme', theme);
+   }, []);
  
    const handleSubmit = async (e: React.FormEvent) => {
      e.preventDefault();
      setError('');
      setIsLoading(true);
      
-     const success = await login(email, password);
-     
-     if (success) {
+     // Simulated login - just navigate if fields are filled
+     if (email && password.length >= 4) {
        navigate('/dashboard');
      } else {
        setError(t('loginError'));

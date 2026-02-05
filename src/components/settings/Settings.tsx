@@ -1,8 +1,21 @@
- import React from 'react';
+ import React, { useState, useEffect } from 'react';
  import { useNavigate } from 'react-router-dom';
- import { useTheme } from '../../contexts/ThemeContext';
- import { useLanguage } from '../../contexts/LanguageContext';
  import './Settings.scss';
+ 
+ type Language = 'en' | 'es' | 'fr';
+ type Theme = 'light' | 'dark';
+ 
+ const translations = {
+   settings: { en: 'Settings', es: 'Configuración', fr: 'Paramètres' },
+   themeSection: { en: 'Theme', es: 'Tema', fr: 'Thème' },
+   lightMode: { en: 'Light', es: 'Claro', fr: 'Clair' },
+   darkMode: { en: 'Dark', es: 'Oscuro', fr: 'Sombre' },
+   languageSection: { en: 'Language', es: 'Idioma', fr: 'Langue' },
+   english: { en: 'English', es: 'Inglés', fr: 'Anglais' },
+   spanish: { en: 'Spanish', es: 'Español', fr: 'Espagnol' },
+   french: { en: 'French', es: 'Francés', fr: 'Français' },
+   backToDashboard: { en: 'Back to Dashboard', es: 'Volver al Panel', fr: 'Retour au Tableau de Bord' },
+ };
  
  const ArrowLeftIcon = () => (
    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -32,8 +45,21 @@
  
  const Settings: React.FC = () => {
    const navigate = useNavigate();
-   const { theme, setTheme } = useTheme();
-   const { language, setLanguage, t } = useLanguage();
+   const [theme, setTheme] = useState<Theme>('light');
+   const [language, setLanguage] = useState<Language>('en');
+ 
+   const t = (key: string): string => {
+     return translations[key as keyof typeof translations]?.[language] || key;
+   };
+ 
+   const handleSetTheme = (newTheme: Theme) => {
+     setTheme(newTheme);
+     document.documentElement.setAttribute('data-theme', newTheme);
+   };
+ 
+   useEffect(() => {
+     document.documentElement.setAttribute('data-theme', theme);
+   }, []);
  
    return (
      <div className="settings-layout">
@@ -56,7 +82,7 @@
                    name="theme"
                    className="radio-option__input"
                    checked={theme === 'light'}
-                   onChange={() => setTheme('light')}
+                   onChange={() => handleSetTheme('light')}
                  />
                  <div className="radio-option__icon">
                    <SunIcon />
@@ -73,7 +99,7 @@
                    name="theme"
                    className="radio-option__input"
                    checked={theme === 'dark'}
-                   onChange={() => setTheme('dark')}
+                   onChange={() => handleSetTheme('dark')}
                  />
                  <div className="radio-option__icon">
                    <MoonIcon />
