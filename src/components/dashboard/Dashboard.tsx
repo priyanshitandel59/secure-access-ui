@@ -1,9 +1,21 @@
- import React, { useState } from 'react';
+ import React, { useState, useEffect } from 'react';
  import { useNavigate } from 'react-router-dom';
- import { useAuth } from '../../contexts/AuthContext';
- import { useTheme } from '../../contexts/ThemeContext';
- import { useLanguage } from '../../contexts/LanguageContext';
  import './Dashboard.scss';
+ 
+ type Language = 'en' | 'es' | 'fr';
+ type Theme = 'light' | 'dark';
+ 
+ const translations = {
+   dashboard: { en: 'Dashboard', es: 'Panel', fr: 'Tableau de Bord' },
+   welcomeUser: { en: 'Welcome back,', es: 'Bienvenido,', fr: 'Bienvenue,' },
+   profile: { en: 'Profile', es: 'Perfil', fr: 'Profil' },
+   profileDesc: { en: 'Manage your personal information', es: 'Gestiona tu información personal', fr: 'Gérer vos informations personnelles' },
+   settingsShortcut: { en: 'Settings', es: 'Configuración', fr: 'Paramètres' },
+   settingsDesc: { en: 'Customize your preferences', es: 'Personaliza tus preferencias', fr: 'Personnalisez vos préférences' },
+   logout: { en: 'Logout', es: 'Cerrar Sesión', fr: 'Déconnexion' },
+   viewProfile: { en: 'View Profile', es: 'Ver Perfil', fr: 'Voir le Profil' },
+   goToSettings: { en: 'Go to Settings', es: 'Ir a Configuración', fr: 'Aller aux Paramètres' },
+ };
  
  const SunIcon = () => (
    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -46,13 +58,25 @@
  
  const Dashboard: React.FC = () => {
    const navigate = useNavigate();
-   const { user, logout } = useAuth();
-   const { theme, toggleTheme } = useTheme();
-   const { language, setLanguage, t } = useLanguage();
    const [showLangDropdown, setShowLangDropdown] = useState(false);
+   const [language, setLanguage] = useState<Language>('en');
+   const [theme, setTheme] = useState<Theme>('light');
+ 
+   const t = (key: string): string => {
+     return translations[key as keyof typeof translations]?.[language] || key;
+   };
+ 
+   const toggleTheme = () => {
+     const newTheme = theme === 'light' ? 'dark' : 'light';
+     setTheme(newTheme);
+     document.documentElement.setAttribute('data-theme', newTheme);
+   };
+ 
+   useEffect(() => {
+     document.documentElement.setAttribute('data-theme', theme);
+   }, []);
  
    const handleLogout = () => {
-     logout();
      navigate('/');
    };
  
@@ -111,7 +135,7 @@
        <main className="dashboard-main">
          <section className="welcome-section">
            <p className="welcome-section__greeting">{t('welcomeUser')}</p>
-           <h1 className="welcome-section__name">{user?.name || 'User'}</h1>
+           <h1 className="welcome-section__name">User</h1>
          </section>
          
          <div className="dashboard-cards">
