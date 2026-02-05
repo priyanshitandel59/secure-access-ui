@@ -1,0 +1,255 @@
+ @use '../../styles/variables' as *;
+ @use '../../styles/mixins' as *;
+ 
+ .login-page {
+   min-height: 100vh;
+   @include flex-column;
+   position: relative;
+   
+   // Light theme gradient
+   background: linear-gradient(135deg, $light-gradient-start 0%, $light-gradient-end 100%);
+   
+   .dark & {
+     background: linear-gradient(135deg, $dark-gradient-start 0%, $dark-gradient-end 100%);
+   }
+ }
+ 
+ .login-header {
+   @include flex-between;
+   padding: $spacing-md $spacing-lg;
+   width: 100%;
+   
+   &__actions {
+     @include flex-center;
+     gap: $spacing-md;
+   }
+ }
+ 
+ .language-selector {
+   position: relative;
+   
+   &__button {
+     @include button-base;
+     background: transparent;
+     border: 1px solid $light-border;
+     color: $light-text;
+     padding: $spacing-xs $spacing-md;
+     font-size: $font-size-sm;
+     
+     .dark & {
+       border-color: $dark-border;
+       color: $dark-text;
+     }
+     
+     &:hover {
+       background: rgba($primary-color, 0.1);
+       border-color: $primary-color;
+     }
+   }
+   
+   &__dropdown {
+     position: absolute;
+     top: 100%;
+     right: 0;
+     margin-top: $spacing-xs;
+     background: $light-surface;
+     border: 1px solid $light-border;
+     border-radius: $radius-md;
+     box-shadow: 0 4px 12px $light-shadow;
+     min-width: 120px;
+     z-index: $z-dropdown;
+     overflow: hidden;
+     
+     .dark & {
+       background: $dark-surface;
+       border-color: $dark-border;
+       box-shadow: 0 4px 12px $dark-shadow;
+     }
+   }
+   
+   &__option {
+     display: block;
+     width: 100%;
+     padding: $spacing-sm $spacing-md;
+     text-align: left;
+     background: transparent;
+     border: none;
+     font-size: $font-size-sm;
+     color: $light-text;
+     cursor: pointer;
+     @include transition-fast;
+     
+     .dark & {
+       color: $dark-text;
+     }
+     
+     &:hover {
+       background: rgba($primary-color, 0.1);
+     }
+     
+     &--active {
+       color: $primary-color;
+       font-weight: $font-weight-medium;
+     }
+   }
+ }
+ 
+ .theme-toggle {
+   @include button-base;
+   width: 40px;
+   height: 40px;
+   padding: 0;
+   background: transparent;
+   border: 1px solid $light-border;
+   color: $light-text;
+   border-radius: $radius-full;
+   
+   .dark & {
+     border-color: $dark-border;
+     color: $dark-text;
+   }
+   
+   &:hover {
+     background: rgba($primary-color, 0.1);
+     border-color: $primary-color;
+     color: $primary-color;
+   }
+   
+   svg {
+     width: 20px;
+     height: 20px;
+   }
+ }
+ 
+ .login-content {
+   flex: 1;
+   @include flex-center;
+   padding: $spacing-lg;
+ }
+ 
+ .login-card {
+   @include card($spacing-2xl);
+   background: $light-surface;
+   box-shadow: 0 8px 32px $light-shadow;
+   width: 100%;
+   max-width: 420px;
+   
+   .dark & {
+     background: $dark-surface;
+     box-shadow: 0 8px 32px $dark-shadow;
+   }
+   
+   &__header {
+     text-align: center;
+     margin-bottom: $spacing-xl;
+   }
+   
+   &__logo {
+     width: 60px;
+     height: 60px;
+     background: linear-gradient(135deg, $primary-color, $primary-hover);
+     border-radius: $radius-lg;
+     @include flex-center;
+     margin: 0 auto $spacing-lg;
+     
+     svg {
+       width: 32px;
+       height: 32px;
+       color: white;
+     }
+   }
+   
+   &__title {
+     font-size: $font-size-2xl;
+     font-weight: $font-weight-bold;
+     color: $light-text;
+     margin-bottom: $spacing-xs;
+     
+     .dark & {
+       color: $dark-text;
+     }
+   }
+   
+   &__subtitle {
+     font-size: $font-size-sm;
+     color: $light-text-secondary;
+     
+     .dark & {
+       color: $dark-text-secondary;
+     }
+   }
+ }
+ 
+ .login-form {
+   @include flex-column;
+   gap: $spacing-lg;
+   
+   &__group {
+     @include flex-column;
+     gap: $spacing-xs;
+   }
+   
+   &__label {
+     font-size: $font-size-sm;
+     font-weight: $font-weight-medium;
+     color: $light-text;
+     
+     .dark & {
+       color: $dark-text;
+     }
+   }
+   
+   &__input {
+     @include input-base;
+     background: $light-bg;
+     border: 1px solid $light-border;
+     color: $light-text;
+     
+     .dark & {
+       background: $dark-bg;
+       border-color: $dark-border;
+       color: $dark-text;
+     }
+     
+     &::placeholder {
+       color: $light-text-secondary;
+       
+       .dark & {
+         color: $dark-text-secondary;
+       }
+     }
+     
+     &:focus {
+       border-color: $primary-color;
+       box-shadow: 0 0 0 3px rgba($primary-color, 0.15);
+     }
+   }
+   
+   &__error {
+     padding: $spacing-sm $spacing-md;
+     background: rgba($error-color, 0.1);
+     border: 1px solid rgba($error-color, 0.3);
+     border-radius: $radius-md;
+     color: $error-color;
+     font-size: $font-size-sm;
+     text-align: center;
+   }
+   
+   &__submit {
+     @include button-base;
+     background: linear-gradient(135deg, $primary-color, $primary-hover);
+     color: white;
+     padding: $spacing-md $spacing-lg;
+     font-weight: $font-weight-semibold;
+     margin-top: $spacing-sm;
+     
+     &:hover:not(:disabled) {
+       transform: translateY(-2px);
+       box-shadow: 0 4px 12px rgba($primary-color, 0.4);
+     }
+     
+     &:active:not(:disabled) {
+       transform: translateY(0);
+     }
+   }
+ }

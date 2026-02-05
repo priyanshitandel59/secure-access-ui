@@ -1,0 +1,114 @@
+ @use 'variables' as *;
+ 
+ // Flexbox mixins
+ @mixin flex-center {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
+ 
+ @mixin flex-between {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+ }
+ 
+ @mixin flex-column {
+   display: flex;
+   flex-direction: column;
+ }
+ 
+ @mixin flex-column-center {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+ }
+ 
+ // Transition mixins
+ @mixin transition-fast {
+   transition: all $transition-fast;
+ }
+ 
+ @mixin transition-base {
+   transition: all $transition-base;
+ }
+ 
+ @mixin transition-slow {
+   transition: all $transition-slow;
+ }
+ 
+ // Card mixin
+ @mixin card($padding: $spacing-lg) {
+   padding: $padding;
+   border-radius: $radius-lg;
+   @include transition-base;
+ }
+ 
+ // Button base mixin
+ @mixin button-base {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   gap: $spacing-sm;
+   padding: $spacing-sm $spacing-lg;
+   border: none;
+   border-radius: $radius-md;
+   font-family: $font-family;
+   font-size: $font-size-base;
+   font-weight: $font-weight-medium;
+   cursor: pointer;
+   @include transition-fast;
+   
+   &:disabled {
+     opacity: 0.6;
+     cursor: not-allowed;
+   }
+ }
+ 
+ // Input base mixin
+ @mixin input-base {
+   width: 100%;
+   padding: $spacing-sm $spacing-md;
+   border-radius: $radius-md;
+   font-family: $font-family;
+   font-size: $font-size-base;
+   @include transition-fast;
+   
+   &:focus {
+     outline: none;
+   }
+ }
+ 
+ // Responsive mixins
+ @mixin mobile {
+   @media (max-width: #{$breakpoint-md - 1px}) {
+     @content;
+   }
+ }
+ 
+ @mixin tablet {
+   @media (min-width: $breakpoint-md) and (max-width: #{$breakpoint-lg - 1px}) {
+     @content;
+   }
+ }
+ 
+ @mixin desktop {
+   @media (min-width: $breakpoint-lg) {
+     @content;
+   }
+ }
+ 
+ // Hover effect
+ @mixin hover-lift {
+   &:hover {
+     transform: translateY(-2px);
+   }
+ }
+ 
+ // Focus ring
+ @mixin focus-ring($color: $primary-color) {
+   &:focus {
+     box-shadow: 0 0 0 3px rgba($color, 0.25);
+   }
+ }

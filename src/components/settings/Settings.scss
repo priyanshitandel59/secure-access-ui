@@ -1,0 +1,203 @@
+ @use '../../styles/variables' as *;
+ @use '../../styles/mixins' as *;
+ 
+ .settings-layout {
+   min-height: 100vh;
+   @include flex-column;
+   background: $light-bg;
+   
+   .dark & {
+     background: $dark-bg;
+   }
+ }
+ 
+ .settings-header {
+   @include flex-between;
+   padding: $spacing-md $spacing-lg;
+   background: $light-surface;
+   border-bottom: 1px solid $light-border;
+   box-shadow: 0 1px 3px $light-shadow;
+   
+   .dark & {
+     background: $dark-surface;
+     border-color: $dark-border;
+     box-shadow: 0 1px 3px $dark-shadow;
+   }
+   
+   &__title {
+     font-size: $font-size-xl;
+     font-weight: $font-weight-bold;
+     color: $light-text;
+     
+     .dark & {
+       color: $dark-text;
+     }
+   }
+   
+   &__back {
+     @include button-base;
+     background: transparent;
+     border: 1px solid $light-border;
+     color: $light-text;
+     padding: $spacing-xs $spacing-md;
+     font-size: $font-size-sm;
+     
+     .dark & {
+       border-color: $dark-border;
+       color: $dark-text;
+     }
+     
+     &:hover {
+       background: rgba($primary-color, 0.1);
+       border-color: $primary-color;
+       color: $primary-color;
+     }
+     
+     svg {
+       width: 16px;
+       height: 16px;
+     }
+   }
+ }
+ 
+ .settings-main {
+   flex: 1;
+   padding: $spacing-xl;
+   max-width: 800px;
+   margin: 0 auto;
+   width: 100%;
+   
+   @include mobile {
+     padding: $spacing-md;
+   }
+ }
+ 
+ .settings-cards {
+   @include flex-column;
+   gap: $spacing-lg;
+ }
+ 
+ .settings-card {
+   @include card;
+   background: $light-surface;
+   border: 1px solid $light-border;
+   box-shadow: 0 2px 8px $light-shadow;
+   
+   .dark & {
+     background: $dark-surface;
+     border-color: $dark-border;
+     box-shadow: 0 2px 8px $dark-shadow;
+   }
+   
+   &__title {
+     font-size: $font-size-lg;
+     font-weight: $font-weight-semibold;
+     color: $light-text;
+     margin-bottom: $spacing-md;
+     padding-bottom: $spacing-md;
+     border-bottom: 1px solid $light-border;
+     
+     .dark & {
+       color: $dark-text;
+       border-color: $dark-border;
+     }
+   }
+   
+   &__options {
+     @include flex-column;
+     gap: $spacing-sm;
+   }
+ }
+ 
+ .radio-option {
+   @include flex-center;
+   justify-content: flex-start;
+   gap: $spacing-md;
+   padding: $spacing-md;
+   border-radius: $radius-md;
+   cursor: pointer;
+   @include transition-fast;
+   
+   &:hover {
+     background: rgba($primary-color, 0.05);
+   }
+   
+   &--selected {
+     background: rgba($primary-color, 0.1);
+     border: 1px solid rgba($primary-color, 0.3);
+   }
+   
+   &__input {
+     appearance: none;
+     width: 20px;
+     height: 20px;
+     border: 2px solid $light-border;
+     border-radius: $radius-full;
+     cursor: pointer;
+     @include transition-fast;
+     position: relative;
+     
+     .dark & {
+       border-color: $dark-border;
+     }
+     
+     &:checked {
+       border-color: $primary-color;
+       background: $primary-color;
+       
+       &::after {
+         content: '';
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         width: 8px;
+         height: 8px;
+         background: white;
+         border-radius: $radius-full;
+       }
+     }
+     
+     &:focus {
+       box-shadow: 0 0 0 3px rgba($primary-color, 0.25);
+     }
+   }
+   
+   &__content {
+     @include flex-column;
+     gap: 2px;
+   }
+   
+   &__label {
+     font-size: $font-size-base;
+     font-weight: $font-weight-medium;
+     color: $light-text;
+     
+     .dark & {
+       color: $dark-text;
+     }
+   }
+   
+   &__description {
+     font-size: $font-size-sm;
+     color: $light-text-secondary;
+     
+     .dark & {
+       color: $dark-text-secondary;
+     }
+   }
+   
+   &__icon {
+     width: 40px;
+     height: 40px;
+     border-radius: $radius-md;
+     @include flex-center;
+     background: rgba($primary-color, 0.1);
+     color: $primary-color;
+     
+     svg {
+       width: 20px;
+       height: 20px;
+     }
+   }
+ }

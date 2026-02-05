@@ -1,0 +1,319 @@
+ @use '../../styles/variables' as *;
+ @use '../../styles/mixins' as *;
+ 
+ .dashboard-layout {
+   min-height: 100vh;
+   @include flex-column;
+   background: $light-bg;
+   
+   .dark & {
+     background: $dark-bg;
+   }
+ }
+ 
+ .dashboard-header {
+   @include flex-between;
+   padding: $spacing-md $spacing-lg;
+   background: $light-surface;
+   border-bottom: 1px solid $light-border;
+   box-shadow: 0 1px 3px $light-shadow;
+   
+   .dark & {
+     background: $dark-surface;
+     border-color: $dark-border;
+     box-shadow: 0 1px 3px $dark-shadow;
+   }
+   
+   @include mobile {
+     padding: $spacing-sm $spacing-md;
+   }
+ }
+ 
+ .header-logo {
+   @include flex-center;
+   gap: $spacing-sm;
+   
+   &__icon {
+     width: 36px;
+     height: 36px;
+     background: linear-gradient(135deg, $primary-color, $primary-hover);
+     border-radius: $radius-md;
+     @include flex-center;
+     
+     svg {
+       width: 20px;
+       height: 20px;
+       color: white;
+     }
+   }
+   
+   &__text {
+     font-size: $font-size-lg;
+     font-weight: $font-weight-bold;
+     color: $light-text;
+     
+     .dark & {
+       color: $dark-text;
+     }
+     
+     @include mobile {
+       display: none;
+     }
+   }
+ }
+ 
+ .header-actions {
+   @include flex-center;
+   gap: $spacing-sm;
+   
+   @include mobile {
+     gap: $spacing-xs;
+   }
+ }
+ 
+ .header-dropdown {
+   position: relative;
+   
+   &__trigger {
+     @include button-base;
+     background: transparent;
+     border: 1px solid $light-border;
+     color: $light-text;
+     padding: $spacing-xs $spacing-md;
+     font-size: $font-size-sm;
+     
+     .dark & {
+       border-color: $dark-border;
+       color: $dark-text;
+     }
+     
+     &:hover {
+       background: rgba($primary-color, 0.1);
+       border-color: $primary-color;
+     }
+     
+     @include mobile {
+       padding: $spacing-xs $spacing-sm;
+     }
+   }
+   
+   &__menu {
+     position: absolute;
+     top: 100%;
+     right: 0;
+     margin-top: $spacing-xs;
+     background: $light-surface;
+     border: 1px solid $light-border;
+     border-radius: $radius-md;
+     box-shadow: 0 4px 12px $light-shadow;
+     min-width: 120px;
+     z-index: $z-dropdown;
+     overflow: hidden;
+     
+     .dark & {
+       background: $dark-surface;
+       border-color: $dark-border;
+       box-shadow: 0 4px 12px $dark-shadow;
+     }
+   }
+   
+   &__item {
+     display: block;
+     width: 100%;
+     padding: $spacing-sm $spacing-md;
+     text-align: left;
+     background: transparent;
+     border: none;
+     font-size: $font-size-sm;
+     color: $light-text;
+     cursor: pointer;
+     @include transition-fast;
+     
+     .dark & {
+       color: $dark-text;
+     }
+     
+     &:hover {
+       background: rgba($primary-color, 0.1);
+     }
+     
+     &--active {
+       color: $primary-color;
+       font-weight: $font-weight-medium;
+     }
+   }
+ }
+ 
+ .header-theme-btn {
+   @include button-base;
+   width: 36px;
+   height: 36px;
+   padding: 0;
+   background: transparent;
+   border: 1px solid $light-border;
+   color: $light-text;
+   border-radius: $radius-full;
+   
+   .dark & {
+     border-color: $dark-border;
+     color: $dark-text;
+   }
+   
+   &:hover {
+     background: rgba($primary-color, 0.1);
+     border-color: $primary-color;
+     color: $primary-color;
+   }
+   
+   svg {
+     width: 18px;
+     height: 18px;
+   }
+ }
+ 
+ .header-logout-btn {
+   @include button-base;
+   background: transparent;
+   border: 1px solid $error-color;
+   color: $error-color;
+   padding: $spacing-xs $spacing-md;
+   font-size: $font-size-sm;
+   
+   &:hover {
+     background: $error-color;
+     color: white;
+   }
+   
+   @include mobile {
+     padding: $spacing-xs $spacing-sm;
+   }
+ }
+ 
+ .dashboard-main {
+   flex: 1;
+   padding: $spacing-xl;
+   max-width: 1200px;
+   margin: 0 auto;
+   width: 100%;
+   
+   @include mobile {
+     padding: $spacing-md;
+   }
+ }
+ 
+ .welcome-section {
+   margin-bottom: $spacing-2xl;
+   
+   &__greeting {
+     font-size: $font-size-sm;
+     color: $light-text-secondary;
+     margin-bottom: $spacing-xs;
+     
+     .dark & {
+       color: $dark-text-secondary;
+     }
+   }
+   
+   &__name {
+     font-size: $font-size-3xl;
+     font-weight: $font-weight-bold;
+     color: $light-text;
+     
+     .dark & {
+       color: $dark-text;
+     }
+     
+     @include mobile {
+       font-size: $font-size-2xl;
+     }
+   }
+ }
+ 
+ .dashboard-cards {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+   gap: $spacing-lg;
+ }
+ 
+ .dashboard-card {
+   @include card;
+   background: $light-surface;
+   border: 1px solid $light-border;
+   box-shadow: 0 2px 8px $light-shadow;
+   cursor: pointer;
+   
+   .dark & {
+     background: $dark-surface;
+     border-color: $dark-border;
+     box-shadow: 0 2px 8px $dark-shadow;
+   }
+   
+   @include hover-lift;
+   
+   &:hover {
+     border-color: $primary-color;
+     box-shadow: 0 8px 24px rgba($primary-color, 0.15);
+   }
+   
+   &__icon {
+     width: 48px;
+     height: 48px;
+     border-radius: $radius-md;
+     @include flex-center;
+     margin-bottom: $spacing-md;
+     
+     svg {
+       width: 24px;
+       height: 24px;
+     }
+     
+     &--profile {
+       background: rgba($primary-color, 0.15);
+       color: $primary-color;
+     }
+     
+     &--settings {
+       background: rgba($secondary-color, 0.15);
+       color: $secondary-color;
+     }
+   }
+   
+   &__title {
+     font-size: $font-size-lg;
+     font-weight: $font-weight-semibold;
+     color: $light-text;
+     margin-bottom: $spacing-xs;
+     
+     .dark & {
+       color: $dark-text;
+     }
+   }
+   
+   &__description {
+     font-size: $font-size-sm;
+     color: $light-text-secondary;
+     margin-bottom: $spacing-md;
+     
+     .dark & {
+       color: $dark-text-secondary;
+     }
+   }
+   
+   &__link {
+     font-size: $font-size-sm;
+     font-weight: $font-weight-medium;
+     color: $primary-color;
+     @include flex-center;
+     justify-content: flex-start;
+     gap: $spacing-xs;
+     
+     &:hover {
+       text-decoration: underline;
+     }
+     
+     svg {
+       width: 16px;
+       height: 16px;
+     }
+   }
+ }
